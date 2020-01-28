@@ -14,6 +14,7 @@ describe "songs", type:  :feature do
         expect(page).to have_text(@song.title)
       end
 
+      # artists/index
       it "redirects to /artists with invalid artist" do
         visit artist_songs_path(1234)
         expect(page).to have_link(@artist.name, href: artist_songs_path(@artist))
@@ -27,6 +28,7 @@ describe "songs", type:  :feature do
         expect(page).to have_text(@song.title)
       end
 
+      # songs/index
       it "redirects to /artists/id/songs with invalid song" do
         visit artist_song_path(@artist, 1232)
         expect(page).to have_link(@song.title, href: song_path(@song))
