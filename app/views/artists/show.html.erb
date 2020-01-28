@@ -1,6 +1,12 @@
 <h1><%= @artist.name %></h1>
 <ul>
   <% @artist.songs.each do |song| %>
-    <li><%= song.title %></li>
+    <li><%= link_to song.title, artist_song_path(@artist, song) %></li>
   <% end %>
+
+  <h1>Invalid song</h1>
+  <% if !!@invalid_song %>
+    <p>yay!</p>
+  <% end %>
+
 </ul>
