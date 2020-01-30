@@ -19,7 +19,7 @@ that we can provide a more professional experience to our users.
 
 The base models, controllers, views, and other files have been provided. There are tests for the lab in the `spec` directory. You can run tests with the `rspec` command.
 
-Remember to `rake db:seed` to set up a starter song library!
+Remember to `rake db:seed` to set up a starter song library! 
 
 1. Create nested resource routes to show all songs for an artist (`/artists/1/songs`) and individual songs for that artist (`/artists/1/songs/1`). Restrict the nested songs routes to `index` and `show` actions only.
 2. Update the artists `index` view to use the new nested resource route URL helper to link to the index of all songs by that artist.
