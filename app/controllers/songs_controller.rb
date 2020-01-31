@@ -1,10 +1,58 @@
 class SongsController < ApplicationController
+    #### INDEX ####
+    # Two reasons this action is triggered:
+    # 1. the /songs path, wanting to see a list of all songs
+    # independant of artist
+    #
+    # If this is the case, artist_id is not in the params hash
+    # We need to set @songs = Song.all
+    #
+    # 2. the /artists/:artist_id/songs path, wanting a list of all 
+    # songs specific to an artist
+    #
+    # :artist_id will be in the params hash, we need to find the 
+    # artist by artist_id. But we have an error condition in that
+    # artist_id might not be a valid artist_id. 
+    # Remember .find would throw an error if not found while .find_by
+    # returns nil
+  
   def index
-    @songs = Song.all
+    if params[:artist_id]
+      @artist = Artist.find_by(id: params[:artist_id])
+      if @artist.nil?
+        redirect_to artists_path, alert: "Artist not found"
+      else
+        @songs = @artist.songs
+      end
+    else
+      @songs = Song.all
+    end
   end
 
+  #### SHOW ####
+  # Similar to above there are two reasons why this action is triggered
+  # 1. the /songs/:id path, wanting to see a single song, independent of artist
+  #
+  # In this case the :artist_id is NOT in the params hash, we will find the song
+  # by the song :id
+  #
+  # 2. the /artists/:artist_id/songs/:id path to see a single song in respect to
+  # an artist. 
+  #
+  # In this case, the :artist_id is within the params hash and will need to 
+  # locate both the artist and the song requested within the URL
+  #
+  
   def show
-    @song = Song.find(params[:id])
+    if params[:artist_id]
+      @artist = Artist.find_by(id: params[:artist_id])
+      @song = @artist.songs.find_by(id: params[:id])
+      if @song.nil?
+        redirect_to artist_songs_path(@artist), alert: "Song not found"
+      end
+    else
+      @song = Song.find(params[:id])
+    end
   end
 
   def new
